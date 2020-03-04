@@ -13,7 +13,7 @@ public class Cerveja {
 	private String nome;
 	
 	@NotBlank
-	@Size(max = 50)
+	@Size(min=1, max = 50)
 	private String descricao;
 
 	public Cerveja() {
