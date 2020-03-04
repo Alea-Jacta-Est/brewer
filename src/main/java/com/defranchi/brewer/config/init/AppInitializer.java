@@ -1,5 +1,8 @@
 package com.defranchi.brewer.config.init;
 
+import javax.servlet.Filter;
+
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.defranchi.brewer.config.WebConfig;
@@ -14,14 +17,23 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		// Configuração para informar ao Spring como achar os controllers
+		// Configuraï¿½ï¿½o para informar ao Spring como achar os controllers
 		return new Class<?> []{ WebConfig.class };
 	}
 
 	@Override
 	protected String[] getServletMappings() {
-		// Padrão da URL que será delegado ao dispatcherServlet / = qualquer url da aplicação
+		// Padrï¿½o da URL que serï¿½ delegado ao dispatcherServlet / = qualquer url da aplicaï¿½ï¿½o
 		return new String[] {"/"};
+	}
+	
+	@Override
+	protected Filter[] getServletFilters() {
+		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+		characterEncodingFilter.setEncoding("UTF-8");
+		characterEncodingFilter.setForceEncoding(true);
+		
+		return new Filter[] { characterEncodingFilter };
 	}
 
 }
