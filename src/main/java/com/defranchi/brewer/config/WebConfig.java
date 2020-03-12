@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -18,17 +19,19 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import com.defranchi.brewer.controller.CervejasController;
 
+import nz.net.ultraq.thymeleaf.LayoutDialect;
+
 @Configuration
-@ComponentScan(basePackageClasses = {CervejasController.class})
+@ComponentScan(basePackageClasses = { CervejasController.class })
 @EnableWebMvc
-public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware{
-	
+public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
+
 	private ApplicationContext applicationContext;
-	
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException{
+
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}
-	
+
 	@Bean
 	public ViewResolver viewResolver() {
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
@@ -36,25 +39,29 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		viewResolver.setCharacterEncoding("UTF-8");
 		return viewResolver;
 	}
-	
-	@Bean //pra ficar disponível no contexto do spring
+
+	@Bean // pra ficar disponï¿½vel no contexto do spring
 	public TemplateEngine templateEngine() {
-			SpringTemplateEngine engine = new SpringTemplateEngine();
-			engine.setEnableSpringELCompiler(true);
-			engine.setTemplateResolver(templateResolver());
-			return engine;
+		SpringTemplateEngine engine = new SpringTemplateEngine();
+		engine.setEnableSpringELCompiler(true);
+		engine.setTemplateResolver(templateResolver());
+		
+		engine.addDialect(new LayoutDialect());
+		return engine;
 	}
 
 	private ITemplateResolver templateResolver() {
-		SpringResourceTemplateResolver resolver  = new SpringResourceTemplateResolver();
+		SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
 		resolver.setApplicationContext(applicationContext);
 		resolver.setPrefix("classpath:/templates/");
 		resolver.setSuffix(".html");
 		resolver.setTemplateMode(TemplateMode.HTML);
 		return resolver;
-		
+
 	}
 
-	
-	
+	@Override // Para adicionar recursos que nÃ£o possuem controller
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+	}
 }
