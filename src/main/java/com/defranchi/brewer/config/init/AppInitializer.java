@@ -18,22 +18,21 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
 		// Configura��o para informar ao Spring como achar os controllers
-		return new Class<?> []{ WebConfig.class };
+		return new Class<?>[] { WebConfig.class };
 	}
 
 	@Override
 	protected String[] getServletMappings() {
 		// Padr�o da URL que ser� delegado ao dispatcherServlet / = qualquer url da aplica��o
-		return new String[] {"/"};
+		return new String[] { "/" };
 	}
-	
+
 	@Override
 	protected Filter[] getServletFilters() {
 		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
 		characterEncodingFilter.setEncoding("UTF-8");
 		characterEncodingFilter.setForceEncoding(true);
-		
+
 		return new Filter[] { characterEncodingFilter };
 	}
-
 }

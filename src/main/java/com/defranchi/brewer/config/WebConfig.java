@@ -45,7 +45,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		SpringTemplateEngine engine = new SpringTemplateEngine();
 		engine.setEnableSpringELCompiler(true);
 		engine.setTemplateResolver(templateResolver());
-		
+
 		engine.addDialect(new LayoutDialect());
 		return engine;
 	}
@@ -57,7 +57,6 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		resolver.setSuffix(".html");
 		resolver.setTemplateMode(TemplateMode.HTML);
 		return resolver;
-
 	}
 
 	@Override // Para adicionar recursos que não possuem controller

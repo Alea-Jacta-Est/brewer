@@ -5,15 +5,15 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 public class Cerveja {
-	
+
 	@NotBlank
 	private String sku;
-	
+
 	@NotBlank
 	private String nome;
-	
+
 	@NotBlank
-	@Size(min=1, max = 50)
+	@Size(min = 1, max = 50)
 	private String descricao;
 
 	public Cerveja() {
